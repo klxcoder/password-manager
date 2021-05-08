@@ -186,9 +186,7 @@ const Record = ({record, index}) => {
     const [password, setPassword] = React.useState(record.data.password);
     const [notes, setNotes] = React.useState(record.data.notes);
     const [showPassword, setShowPassword] = React.useState(false);
-    const [editable, setEditable] = React.useState(false);
-    const [active, setActive] = React.useState(['edit']);
-    //
+    
     const deleteRecord = (e) => {
         e.preventDefault();
         db.collection(`users/${user.uid}/records`).doc(record.id).delete().then(() => {
@@ -199,6 +197,19 @@ const Record = ({record, index}) => {
             addMsg(JSON.stringify(error, null, 4));
         });
     }
+
+    const copyPassword = (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(password)
+            .then(() => {
+                addMsg('Copied password to the clipboard');
+            })
+            .catch(err => {
+                addMsg("Error when copying password");
+                addMsg(JSON.stringify(error, null, 4));
+            });
+    }
+
     return (
         <div className="container">
             <div className="mb-3">
@@ -224,11 +235,11 @@ const Record = ({record, index}) => {
                 <button className="btn btn-secondary" onClick={() => setShowPassword(showPassword => !showPassword)}>Show password</button>
             </div>
             <div className="mb-3">
-                <button className="btn btn-secondary" onClick={() => addMsg('Will save password to clipboard')}>Save password to clipboard</button>
+                <button className="btn btn-secondary" onClick={copyPassword}>Copy password to clipboard</button>
             </div>
             <div className="mb-3">
                 <label htmlFor="notes" className="form-label">Notes</label>
-                <textarea className="form-control" id="notes" rows="3"></textarea>
+                <textarea className="form-control" id="notes" rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div className="mb-3">
                 <button className="btn btn-primary" onClick={() => addMsg('Will save record')}>Save record</button>
