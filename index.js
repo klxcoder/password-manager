@@ -3,6 +3,7 @@ const LogSection = () => {
     const clearLogs = (e) => {
         e.preventDefault();
         setMessages([]);
+        swal("Good job!", "All logs cleared successfully!", "success");
     }
     return (
         <>
@@ -58,9 +59,11 @@ const UpdateProfileSection = () => {
         user.updatePassword(password).then(function() {
             setPassword('');
             addMsg('Update password successful.');
+            swal("Good job!", "Update password successful.", "success");
         }).catch(function(error) {
             addMsg('Can not update password');
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
     const updateDisplayName = (e) => {
@@ -70,9 +73,11 @@ const UpdateProfileSection = () => {
         user.updateProfile(udate).then(function(x) {
             setUser(user => ({...user, ...udate}));
             addMsg('Update profile successful.');
+            swal("Good job!", "Update displayName successful.", "success");
         }).catch(function(error) {
             addMsg('Can not update profile');
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
     const sendEmailVerification = (e) => {
@@ -80,9 +85,11 @@ const UpdateProfileSection = () => {
         const user = firebase.auth().currentUser;
         user.sendEmailVerification().then(function() {
             addMsg('Email verification sent.');
+            swal("Good job!", 'Email verification sent.', "success");
         }).catch(function(error) {
             addMsg('Cant not send email verification');
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
     return (
@@ -135,14 +142,17 @@ const AddRecordSection = () => {
             password,
             notes,
         }
+
         db.collection(`users/${user.uid}/records`).add(newRecordData)
         .then((docRef) => {
             addMsg("Document written with ID: " + docRef.id);
+            swal("Good job!", "Document is created succesfully", "success");
             setRecords(records => [...records, {data: newRecordData, id: docRef.id}]);
         })
         .catch((error) => {
             addMsg("Error adding document");
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
 
@@ -189,12 +199,27 @@ const Record = ({record, index}) => {
     
     const deleteRecord = (e) => {
         e.preventDefault();
-        db.collection(`users/${user.uid}/records`).doc(record.id).delete().then(() => {
-            addMsg("Document successfully deleted!");
-            setRecords(records => [...records].filter(r => r.id!==record.id));
-        }).catch((error) => {
-            addMsg("Error when removing document");
-            addMsg(JSON.stringify(error, null, 4));
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this record!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                db.collection(`users/${user.uid}/records`).doc(record.id).delete().then(() => {
+                    addMsg("Document successfully deleted!");
+                    swal("Poof! Your record file has been deleted!", {icon: "success",});
+                    setRecords(records => [...records].filter(r => r.id!==record.id));
+                }).catch((error) => {
+                    addMsg("Error when removing document");
+                    addMsg(JSON.stringify(error, null, 4));
+                    swal("Ohh!", JSON.stringify(error, null, 4), "error");
+                });
+            } else {
+                swal("Your imaginary file is safe!");
+            }
         });
     }
 
@@ -203,10 +228,12 @@ const Record = ({record, index}) => {
         navigator.clipboard.writeText(password)
             .then(() => {
                 addMsg('Copied password to the clipboard');
+                swal("Good job!", "Password coppied", "success");
             })
-            .catch(err => {
+            .catch(error => {
                 addMsg("Error when copying password");
                 addMsg(JSON.stringify(error, null, 4));
+                swal("Ohh!", JSON.stringify(error, null, 4), "error");
             });
     }
 
@@ -224,6 +251,7 @@ const Record = ({record, index}) => {
         db.collection(`users/${user.uid}/records`).doc(record.id).set(editedRecordData)
         .then(() => {
             addMsg("Document successfully updated!");
+            swal("Good job!", "Record saved", "success");
             setRecords(records => [...records].map(r => {
                 if(r.id !== record.id) return r;
                 return {
@@ -235,6 +263,7 @@ const Record = ({record, index}) => {
         .catch((error) => {
             addMsg("Error when removing document");
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
 
@@ -313,27 +342,30 @@ const SignupSigninSection = () => {
                 // Signed in 
                 var user = userCredential.user;
                 addMsg(`You have been create a new user with enail = ${user.email} and uid = ${user.uid}`);
+                swal("Good job!", "Sign up successfully", "success");
                 // setUser(user) here!
             })
             .catch((error) => {
                 addMsg('Can not create new user');
                 addMsg(JSON.stringify(error, null, 4));
+                swal("Ohh!", JSON.stringify(error, null, 4), "error");
             });
     }
 
-    const handleSignin = (e) => {
+    const handleSignin = async (e) => {
         e.preventDefault();
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Signed in
-                const u = userCredential.user;
-                addMsg(`You have been signed in with user = ${u.email} and uid = ${u.uid}`);
-                setTab('/');
-            })
-            .catch((error) => {
-                addMsg('Error when trying to sign in');
-                addMsg(JSON.stringify(error, null, 4));
-            });
+        try {
+            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+            // Signed in
+            const u = userCredential.user;
+            addMsg(`You have been signed in with user = ${u.email} and uid = ${u.uid}`);
+            setTab('/');
+            swal("Good job!", "Sign in successfully!", "success");
+        } catch(error) {
+            addMsg('Error when trying to sign in');
+            addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
+        }
     }
 
     return (
@@ -455,7 +487,7 @@ const App = () => {
     const [tab, setTab] = React.useState('/');
 
     const addMsg = (msg) => {
-        setMessages(messages => ([...messages, msg]))
+        setMessages(messages => ([...messages, msg]));
     }
 
     React.useEffect(() => {
@@ -492,9 +524,11 @@ const App = () => {
         e.preventDefault();
         firebase.auth().signOut().then(() => {
             addMsg(`signout succesfully`);
+            swal("Good job!", "Sign out successfully!", "success");
         }).catch((error) => {
             addMsg(`Error when signin out`);
             addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
         });
     }
 
