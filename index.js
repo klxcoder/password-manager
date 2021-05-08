@@ -342,7 +342,7 @@ const ShowRecordSection = () => {
 const SignupSigninSection = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const {addMsg} = React.useContext(AppContext);
+    const {addMsg, setTab} = React.useContext(AppContext);
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -366,6 +366,7 @@ const SignupSigninSection = () => {
                 // Signed in
                 const u = userCredential.user;
                 addMsg(`You have been signed in with user = ${u.email} and uid = ${u.uid}`);
+                setTab('/');
             })
             .catch((error) => {
                 addMsg('Error when trying to sign in');
@@ -430,7 +431,7 @@ const Header = () => {
                                 </li>
                                 {!user &&
                                     <>
-                                        <li className="nav-item">
+                                        <li className={tab==="sign" ? "nav-link active" : "nav-link"}>
                                             <button className="nav-link" onClick={(e) => handleSetTab(e, 'sign')}>Sign in & Sign up</button>
                                         </li>
                                     </>
