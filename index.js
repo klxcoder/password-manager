@@ -169,7 +169,7 @@ const AddRecordSection = () => {
             </div>
             <div className="mb-3">
                 <label htmlFor="notes" className="form-label">Notes</label>
-                <textarea className="form-control" id="notes" rows="3"></textarea>
+                <textarea className="form-control" id="notes" rows="3" value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
             </div>
             <div className="mb-3">
                 <button className="btn btn-primary" onClick={addNewRecord}>Add new record</button>
@@ -210,6 +210,34 @@ const Record = ({record, index}) => {
             });
     }
 
+    const saveRecord = (e) => {
+        e.preventDefault();
+
+        const editedRecordData = {
+            domain,
+            username,
+            email,
+            password,
+            notes,
+        }
+
+        db.collection(`users/${user.uid}/records`).doc(record.id).set(editedRecordData)
+        .then(() => {
+            addMsg("Document successfully updated!");
+            setRecords(records => [...records].map(r => {
+                if(r.id !== record.id) return r;
+                return {
+                    id: record.id,
+                    data: editedRecordData
+                }
+            }))
+        })
+        .catch((error) => {
+            addMsg("Error when removing document");
+            addMsg(JSON.stringify(error, null, 4));
+        });
+    }
+
     return (
         <div className="container">
             <div className="mb-3">
@@ -238,11 +266,11 @@ const Record = ({record, index}) => {
                 <button className="btn btn-secondary" onClick={copyPassword}>Copy password to clipboard</button>
             </div>
             <div className="mb-3">
-                <label htmlFor="notes" className="form-label">Notes</label>
+                <label htmlFor="notes" className="form-label">Notes - {notes}</label>
                 <textarea className="form-control" id="notes" rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div className="mb-3">
-                <button className="btn btn-primary" onClick={() => addMsg('Will save record')}>Save record</button>
+                <button className="btn btn-primary" onClick={saveRecord}>Save record</button>
             </div>
             <div className="mb-3">
                 <button className="btn btn-secondary" onClick={deleteRecord}>Delete record</button>
