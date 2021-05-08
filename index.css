@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    padding: 10px;
+    background-color: aqua;
+}
+
+.card {
+    border: 1px solid gray;
+    padding: 2px 10px;
+    margin: 12px 0;
+    background-color: rgba(250, 200, 140, 1);
+}
+
+.card-body {
+    border: 1px solid gray;
+    padding: 10px;
+    background-color: rgba(235, 220, 210, 1);
+}
+
+.card-row {
+    border: 1px solid gray;
+    padding: 2px;
+    margin: 2px 0;
+    display: flex;    
+    background-color: rgba(210, 240, 56, 1);
+}
+
+.card-col {
+    flex: 1;
+    border: 1px solid gray;
+    padding: 2px;
+    background-color: rgba(210, 230, 50, 1);
+    display: flex;
+    align-items: center;
+}
+
+input {
+    padding: 2px;
+    width: 100%;
+    border: 1px solid red;
+}
+
+button {
+    width: 100%;
+    padding: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+}
+
+button:hover {
+    background-color: rgba(115, 120, 40, 1);
+}
+
+.active {
+    background-color: green;
+}
