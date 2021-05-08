@@ -26,7 +26,7 @@ const LogSection = () => {
 }
 
 const UserDetail = () => {
-    const {user, setUser} = React.useContext(AppContext);
+    const {user} = React.useContext(AppContext);
     return (
         <>
             <div className="card">
@@ -129,7 +129,7 @@ const AddRecordSection = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [notes, setNotes] = React.useState('');
-    const {user, addMsg, records, setRecords} = React.useContext(AppContext);
+    const {user, addMsg, setRecords} = React.useContext(AppContext);
     const addNewRecord = (e) => {
         e.preventDefault();
         const newRecordData = {
@@ -209,7 +209,7 @@ const AddRecordSection = () => {
 }
 
 const Record = ({record, index}) => {
-    const {user, addMsg, records, setRecords} = React.useContext(AppContext);
+    const {user, addMsg, setRecords} = React.useContext(AppContext);
     const [domain, setDomain] = React.useState(record.data.domain);
     const [username, setUsername] = React.useState(record.data.username);
     const [email, setEmail] = React.useState(record.data.email);
@@ -318,7 +318,7 @@ const Record = ({record, index}) => {
 }
 
 const ShowRecordSection = () => {
-    const {records, setRecords} = React.useContext(AppContext);
+    const {records} = React.useContext(AppContext);
     return (
         <div>
             <div className="card">
@@ -342,7 +342,7 @@ const ShowRecordSection = () => {
 const SignupSigninSection = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const {user, addMsg, records, setRecords} = React.useContext(AppContext);
+    const {addMsg} = React.useContext(AppContext);
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -374,58 +374,99 @@ const SignupSigninSection = () => {
     }
 
     return (
-        <div>
-            <div className="card">
-                <div className="card-header">
-                    <h1>Signup & Signin Section</h1>
+        <div className="container">
+            <div className="mb-3">
+                <h1>Signup & Signin</h1>
+            </div>
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email address</label>
+                <input type="email" className="form-control" id="email" placeholder="email@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password" className="form-control" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            
+            <div className="row">
+                <div className="col">
+                    <button type="button" className="btn btn-primary" onClick={handleSignin}>Sign in</button>
                 </div>
-                <div className="card-body">
-                    <div className="card-row">
-                        <div className="card-col">
-                            email
-                        </div>
-                        <div className="card-col">
-                            <input type="email" placeholder="example@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            password
-                        </div>
-                        <div className="card-col">
-                            <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            <button onClick={handleSignup}>Signup</button>
-                        </div>
-                        <div className="card-col">
-                            <button onClick={handleSignin}>Signin</button>
-                        </div>
-                    </div>
+                <div className="col">
+                    <button type="button" className="btn btn-secondary" onClick={handleSignup}>Sign up</button>
                 </div>
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
+                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
         </div>
     )
 }
 
 const Header = () => {
-    const {addMsg, tab, setTab} = React.useContext(AppContext);
+    const {tab, setTab, user} = React.useContext(AppContext);
     const handleSetTab = (e, value) => {
         e.preventDefault();
         setTab(value);
     }
     return (
-        <div>
-            <h1>This is tab {tab}</h1>
-            <button onClick={(e) => handleSetTab(e, '/')}>Home</button>
-            <button onClick={(e) => handleSetTab(e, 'log')}>Log Section</button>
-            <button onClick={(e) => handleSetTab(e, 'user-detail')}>User Detail Section</button>
-            <button onClick={(e) => handleSetTab(e, 'update-profile')}>Update Profile Section</button>
-            <button onClick={(e) => handleSetTab(e, 'add-record')}>Add Record Section</button>
-            <button onClick={(e) => handleSetTab(e, 'show-record')}>Show Record Section</button>
-        </div>
+        <>
+            <h1>{tab==='/'?tab:`/${tab}`}</h1>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="#">Navbar</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav">
+                                <li className="nav-item">
+                                    <button className={tab==="/" ? "nav-link active" : "nav-link"} onClick={(e) => handleSetTab(e, '/')}>Home</button>
+                                </li>
+                                <li className="nav-item">
+                                    <button className={tab==="log" ? "nav-link active" : "nav-link"} onClick={(e) => handleSetTab(e, 'log')}>Log Section</button>
+                                </li>
+                                {!user &&
+                                    <>
+                                        <li className="nav-item">
+                                            <button className="nav-link" onClick={(e) => handleSetTab(e, 'sign')}>Sign in & Sign up</button>
+                                        </li>
+                                    </>
+                                }
+                                {user &&
+                                    <>
+                                        {[
+                                            {
+                                                tab: 'user-detail',
+                                                text: 'User Detail Section'
+                                            },
+                                            {
+                                                tab: 'update-profile',
+                                                text: 'User Profile Section'
+                                            },
+                                            {
+                                                tab: 'add-record',
+                                                text: 'Add Record Section'
+                                            },
+                                            {
+                                                tab: 'show-record',
+                                                text: 'Show Record Section'
+                                            }
+                                        ].map(x =>
+                                            <li className="nav-item" key={x.tab}>
+                                                <button className={tab===x.tab?"nav-link active":"nav-link"} onClick={(e) => handleSetTab(e, x.tab)}>{x.text}</button>
+                                            </li>    
+                                        )}
+                                    </>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </>
     )
 }
 
@@ -433,12 +474,9 @@ const Body = () => {
     const {tab, user} = React.useContext(AppContext);
     return (
         <div>
-            <h1>Start of body</h1>
-            {tab==='/' && <h1>This is home</h1>}
+            {tab==='/' && <h1>Home Page</h1>}
             {tab==='log' && <LogSection />}
-            {!user && 
-                <SignupSigninSection />
-            }
+            {!user && tab==='sign' && <SignupSigninSection />}
             {user &&
                 <>
                     {tab==='user-detail' && <UserDetail />}
@@ -447,7 +485,6 @@ const Body = () => {
                     {tab==='show-record' && <ShowRecordSection />}
                 </>
             }
-            <h1>End of body</h1>
         </div>
     )
 }
@@ -508,11 +545,7 @@ const App = () => {
         <AppContext.Provider value={{user, setUser, messages, setMessages, addMsg, records, setRecords, tab, setTab}}>
             <Header />
             <Body />
-            {user &&
-                <>
-                    <button onClick={handleSignout}>Sign out</button>
-                </>
-            }
+            {user && <button onClick={handleSignout}>Sign out</button>}
         </AppContext.Provider>
     )
 }
