@@ -377,7 +377,7 @@ const SignupSigninSection = () => {
         <div>
             <div className="card">
                 <div className="card-header">
-                    <h1>Show Record Section</h1>
+                    <h1>Signup & Signin Section</h1>
                 </div>
                 <div className="card-body">
                     <div className="card-row">
@@ -410,12 +410,55 @@ const SignupSigninSection = () => {
     )
 }
 
+const Header = () => {
+    const {addMsg, tab, setTab} = React.useContext(AppContext);
+    const handleSetTab = (e, value) => {
+        e.preventDefault();
+        setTab(value);
+    }
+    return (
+        <div>
+            <h1>This is tab {tab}</h1>
+            <button onClick={(e) => handleSetTab(e, '/')}>Home</button>
+            <button onClick={(e) => handleSetTab(e, 'log')}>Log Section</button>
+            <button onClick={(e) => handleSetTab(e, 'user-detail')}>User Detail Section</button>
+            <button onClick={(e) => handleSetTab(e, 'update-profile')}>Update Profile Section</button>
+            <button onClick={(e) => handleSetTab(e, 'add-record')}>Add Record Section</button>
+            <button onClick={(e) => handleSetTab(e, 'show-record')}>Show Record Section</button>
+        </div>
+    )
+}
+
+const Body = () => {
+    const {tab, user} = React.useContext(AppContext);
+    return (
+        <div>
+            <h1>Start of body</h1>
+            {tab==='/' && <h1>This is home</h1>}
+            {tab==='log' && <LogSection />}
+            {!user && 
+                <SignupSigninSection />
+            }
+            {user &&
+                <>
+                    {tab==='user-detail' && <UserDetail />}
+                    {tab==='update-profile' && <UpdateProfileSection />}
+                    {tab==='add-record' && <AddRecordSection />}
+                    {tab==='show-record' && <ShowRecordSection />}
+                </>
+            }
+            <h1>End of body</h1>
+        </div>
+    )
+}
+
 const AppContext = React.createContext();
 
 const App = () => {
     const [user, setUser] = React.useState(null);
     const [messages, setMessages] = React.useState([]);
     const [records, setRecords] = React.useState([]);
+    const [tab, setTab] = React.useState('/');
 
     const addMsg = (msg) => {
         setMessages(messages => ([...messages, msg]))
@@ -462,17 +505,11 @@ const App = () => {
     }
 
     return (
-        <AppContext.Provider value={{user, setUser, messages, setMessages, addMsg, records, setRecords}}>
-            <LogSection />
-            {!user && 
-                <SignupSigninSection />
-            }
+        <AppContext.Provider value={{user, setUser, messages, setMessages, addMsg, records, setRecords, tab, setTab}}>
+            <Header />
+            <Body />
             {user &&
                 <>
-                    <UserDetail />
-                    <UpdateProfileSection />
-                    <AddRecordSection />
-                    <ShowRecordSection />
                     <button onClick={handleSignout}>Sign out</button>
                 </>
             }
