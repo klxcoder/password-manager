@@ -200,89 +200,42 @@ const Record = ({record, index}) => {
         });
     }
     return (
-        <div className="card">
-            <div className="card-header">
+        <div className="container">
+            <div className="mb-3">
                 <h1>Record #{index+1}</h1>
             </div>
-            <div className="card-body">
-                <div className="card-row">
-                    <div className="card-col">
-                        domain - {domain}
-                    </div>
-                    <div className="card-col">
-                        {editable
-                            ?<input type="text" value={domain} onChange={(e) => setDomain(e.target.value)} />
-                            :domain
-                        }
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        username - {username}
-                    </div>
-                    <div className="card-col">
-                        {editable
-                            ?<input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                            :username
-                        }
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        email - {email}
-                    </div>
-                    <div className="card-col">
-                        {editable
-                            ?<input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            :email
-                        }
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        password - {password}
-                    </div>
-                    <div className="card-col">
-                        <input type={showPassword?"text":"password"} value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <button className="btn btn-primary" onClick={() => setShowPassword(showPassword => !showPassword)}>toggle show password</button>
-                        
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        notes - {notes}
-                    </div>
-                    <div className="card-col">
-                        {editable
-                            ?<input type="text" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                            :notes
-                        }
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        <button className={active.includes('edit')?'active':''} onClick={() => {
-                            setEditable(true);
-                            setActive(['ok', 'cancle']);
-                        }}>Edit record</button>
-                        <button className={active.includes('ok')?'active':''} onClick={() => {
-                            // send update to server then
-                            // setEditable(false);
-                            // setActive(['edit']);
-                        }}>OK</button>
-                        <button className={active.includes('cancle')?'active':''} onClick={() => {
-                            setEditable(false);
-                            setActive(['edit']);
-                        }}>Cancle</button>
-                    </div>
-                </div>
-                <div className="card-row">
-                    <div className="card-col">
-                        <button className="btn btn-primary" onClick={deleteRecord}>Delete record</button>
-                    </div>
-                </div>
+            <div className="mb-3">
+                <label htmlFor="domain" className="form-label">Domain</label>
+                <input type="text" className="form-control" id="domain" placeholder="https://example.com" value={domain} onChange={(e) => setDomain(e.target.value)} />
             </div>
-            
+            <div className="mb-3">
+                <label htmlFor="username" className="form-label">Username</label>
+                <input type="text" className="form-control" id="username" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input type="email" className="form-control" id="email" placeholder="example@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type={showPassword ? "text" : "password"} className="form-control" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-secondary" onClick={() => setShowPassword(showPassword => !showPassword)}>Show password</button>
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-secondary" onClick={() => addMsg('Will save password to clipboard')}>Save password to clipboard</button>
+            </div>
+            <div className="mb-3">
+                <label htmlFor="notes" className="form-label">Notes</label>
+                <textarea className="form-control" id="notes" rows="3"></textarea>
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-primary" onClick={() => addMsg('Will save record')}>Save record</button>
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-secondary" onClick={deleteRecord}>Delete record</button>
+            </div>
         </div>
     )
 }
