@@ -19,7 +19,7 @@ const LogSection = () => {
                         </ul>
                     </div>
                 </div>
-                <button onClick={clearLogs}>Clear all the logs</button>
+                <button className="btn btn-primary" onClick={clearLogs}>Clear all the logs</button>
             </div>
         </>
     )
@@ -28,27 +28,23 @@ const LogSection = () => {
 const UserDetail = () => {
     const {user} = React.useContext(AppContext);
     return (
-        <>
-            <div className="card">
-                <div className="card-header">
-                    <h1>User's detail:</h1>
-                </div>
-                <div className="card-body">
-                    <div className="card-row">
-                        <div className="card-col">email</div>
-                        <div className="card-col">{user.email}</div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">uid</div>
-                        <div className="card-col">{user.uid}</div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">displayName</div>
-                        <div className="card-col">{user.displayName}</div>
-                    </div>
-                </div>
+        <div className="container">
+            <div className="mb-3">
+                <h1>User's detail</h1>
             </div>
-        </>
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email address</label>
+                <input type="email" className="form-control" id="email" placeholder="email@example.com" value={user.email} onChange={() => {}} disabled />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="uid" className="form-label">UID</label>
+                <input type="text" className="form-control" id="uid" placeholder="uid" value={user.uid} onChange={() => {}} disabled />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="displayName" className="form-label">Display Name</label>
+                <input type="text" className="form-control" id="displayName" placeholder="displayName" value={user.displayName} onChange={() => {}} disabled />
+            </div>
+        </div>
     )
 }
 
@@ -101,7 +97,7 @@ const UpdateProfileSection = () => {
                             <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div className="card-col">
-                            <button onClick={updatePassword}>Update password</button>
+                            <button className="btn btn-primary" onClick={updatePassword}>Update password</button>
                         </div>
                     </div>
                     <div className="card-row">
@@ -109,12 +105,12 @@ const UpdateProfileSection = () => {
                             <input type="input" placeholder="Your displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                         </div>
                         <div className="card-col">
-                            <button onClick={updateDisplayName}>Update displayName</button>
+                            <button className="btn btn-primary" onClick={updateDisplayName}>Update displayName</button>
                         </div>
                     </div>
                     <div className="card-row">
                         <div className="card-col">
-                            <button onClick={sendEmailVerification}>Send Email Verification</button>
+                            <button className="btn btn-primary" onClick={sendEmailVerification}>Send Email Verification</button>
                         </div>
                     </div>
                 </div>
@@ -151,60 +147,34 @@ const AddRecordSection = () => {
     }
 
     return (
-        <>
-            <div className="card">
-                <div className="card-header">
-                    <h1>Add Record Section</h1>
-                </div>
-                <div className="card-body">
-                    <div className="card-row">
-                        <div className="card-col">
-                            domain
-                        </div>
-                        <div className="card-col">
-                            <input type="input" placeholder="https://example.com" value={domain} onChange={(e) => setDomain(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            username
-                        </div>
-                        <div className="card-col">
-                            <input type="input" placeholder="Your username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            email
-                        </div>
-                        <div className="card-col">
-                            <input type="email" placeholder="example@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            password
-                        </div>
-                        <div className="card-col">
-                            <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            notes
-                        </div>
-                        <div className="card-col">
-                            <input type="input" placeholder="Your notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            <button onClick={addNewRecord}>Add new record</button>
-                        </div>
-                    </div>
-                </div>
+        <div className="container">
+            <div className="mb-3">
+                <h1>Add Record Section</h1>
             </div>
-        </>
+            <div className="mb-3">
+                <label htmlFor="domain" className="form-label">Domain</label>
+                <input type="text" className="form-control" id="domain" placeholder="https://example.com" value={domain} onChange={(e) => setDomain(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="username" className="form-label">Username</label>
+                <input type="text" className="form-control" id="username" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input type="email" className="form-control" id="email" placeholder="example@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password" className="form-control" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="notes" className="form-label">Notes</label>
+                <textarea className="form-control" id="notes" rows="3"></textarea>
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-primary" onClick={addNewRecord}>Add new record</button>
+            </div>
+        </div>
     )
 }
 
@@ -274,7 +244,7 @@ const Record = ({record, index}) => {
                     </div>
                     <div className="card-col">
                         <input type={showPassword?"text":"password"} value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <button onClick={() => setShowPassword(showPassword => !showPassword)}>toggle show password</button>
+                        <button className="btn btn-primary" onClick={() => setShowPassword(showPassword => !showPassword)}>toggle show password</button>
                         
                     </div>
                 </div>
@@ -308,7 +278,7 @@ const Record = ({record, index}) => {
                 </div>
                 <div className="card-row">
                     <div className="card-col">
-                        <button onClick={deleteRecord}>Delete record</button>
+                        <button className="btn btn-primary" onClick={deleteRecord}>Delete record</button>
                     </div>
                 </div>
             </div>
@@ -377,7 +347,7 @@ const SignupSigninSection = () => {
     return (
         <div className="container">
             <div className="mb-3">
-                <h1>Signup & Signin</h1>
+                <h1>Sign in & Sign up</h1>
             </div>
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email address</label>
@@ -387,19 +357,13 @@ const SignupSigninSection = () => {
                 <label htmlFor="password" className="form-label">Password</label>
                 <input type="password" className="form-control" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            
             <div className="row">
                 <div className="col">
-                    <button type="button" className="btn btn-primary" onClick={handleSignin}>Sign in</button>
+                    <button className="btn btn-primary" onClick={handleSignin}>Sign in</button>
                 </div>
                 <div className="col">
-                    <button type="button" className="btn btn-secondary" onClick={handleSignup}>Sign up</button>
+                    <button className="btn btn-secondary" onClick={handleSignup}>Sign up</button>
                 </div>
-            </div>
-
-            <div className="mb-3">
-                <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
-                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
         </div>
     )
@@ -431,8 +395,8 @@ const Header = () => {
                                 </li>
                                 {!user &&
                                     <>
-                                        <li className={tab==="sign" ? "nav-link active" : "nav-link"}>
-                                            <button className="nav-link" onClick={(e) => handleSetTab(e, 'sign')}>Sign in & Sign up</button>
+                                        <li className="nav-item">
+                                            <button className={tab==="sign"?"nav-link active":"nav-link"} onClick={(e) => handleSetTab(e, 'sign')}>Sign in & Sign up</button>
                                         </li>
                                     </>
                                 }
@@ -546,7 +510,7 @@ const App = () => {
         <AppContext.Provider value={{user, setUser, messages, setMessages, addMsg, records, setRecords, tab, setTab}}>
             <Header />
             <Body />
-            {user && <button onClick={handleSignout}>Sign out</button>}
+            {user && <button className="btn btn-secondary" onClick={handleSignout}>Sign out</button>}
         </AppContext.Provider>
     )
 }
