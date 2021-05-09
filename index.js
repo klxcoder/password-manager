@@ -136,6 +136,11 @@ const AddRecordSection = () => {
             addMsg("Document written with ID: " + docRef.id);
             swal("Good job!", "Document is created succesfully", "success");
             setRecords(records => [...records, {data: newRecordData, id: docRef.id}]);
+            setDomain('');
+            setUsername('');
+            setEmail('');
+            setPassword('');
+            setNotes('');
         })
         .catch((error) => {
             addMsg("Error adding document");
