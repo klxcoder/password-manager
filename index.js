@@ -288,7 +288,7 @@ const Record = ({record, index}) => {
                 <button className="btn btn-secondary" onClick={copyPassword}>Copy password to clipboard</button>
             </div>
             <div className="mb-3">
-                <label htmlFor="notes" className="form-label">Notes - {notes}</label>
+                <label htmlFor="notes" className="form-label">Notes</label>
                 <textarea className="form-control" id="notes" rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div className="mb-3">
