@@ -95,25 +95,19 @@ const UpdateProfileSection = () => {
     return (
         <>
             <h1>Update Profile Section</h1>
-            <div className="container-sm border border-primary rounded m-1 p-1">
-                <div className="row m-1">
-                    <div className="col col-xl border border-primary rounded">
-                        <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div className="col col-xl-4">
+            <div className="d-flex justify-content-center">
+                <div className="border border-primary rounded m-1 p-1 d-flex flex-column align-items-center">
+                    <div className="m-1 d-flex">
+                        <input className="flex-fill" type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         <button className="btn btn-secondary" onClick={updatePassword}>Update</button>
                     </div>
-                </div>
-                <div className="row m-1">
-                    <div className="col col-xl ">
-                        <input type="input" placeholder="Your displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-                    </div>
-                    <div className="col col-xl-4">
+                    <div className="m-1 d-flex">
+                        <input className="flex-fill" type="input" placeholder="Your displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                         <button className="btn btn-secondary" onClick={updateDisplayName}>Update</button>
                     </div>
-                </div>
-                <div className="row">
-                    <button className="btn btn-secondary" onClick={sendEmailVerification}>Send Email Verification</button>
+                    <div>
+                        <button className="col btn btn-secondary" onClick={sendEmailVerification}>Send Email Verification</button>
+                    </div>
                 </div>
             </div>
         </>
