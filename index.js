@@ -149,6 +149,10 @@ const AddRecordSection = () => {
         });
     }
 
+    // React.useEffect(() => {
+        console.log('render AddRecordSection');
+    // }, [])
+
     return (
         <div className="container">
             <div className="mb-3">
