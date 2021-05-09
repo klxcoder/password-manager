@@ -20,7 +20,7 @@ const LogSection = () => {
                         </ul>
                     </div>
                 </div>
-                <button className="btn btn-primary" onClick={clearLogs}>Clear all the logs</button>
+                <button className="btn btn-secondary" onClick={clearLogs}>Clear all the logs</button>
             </div>
         </>
     )
@@ -94,32 +94,26 @@ const UpdateProfileSection = () => {
     }
     return (
         <>
-            <div className="card">
-                <div className="card-header">
-                    <h1>Update Profile Section</h1>
+            <h1>Update Profile Section</h1>
+            <div className="container-sm border border-primary rounded m-1 p-1">
+                <div className="row m-1">
+                    <div className="col col-xl border border-primary rounded">
+                        <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div className="col col-xl-4">
+                        <button className="btn btn-secondary" onClick={updatePassword}>Update</button>
+                    </div>
                 </div>
-                <div className="card-body">
-                    <div className="card-row">
-                        <div className="card-col">
-                            <input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                        <div className="card-col">
-                            <button className="btn btn-primary" onClick={updatePassword}>Update password</button>
-                        </div>
+                <div className="row m-1">
+                    <div className="col col-xl ">
+                        <input type="input" placeholder="Your displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                     </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            <input type="input" placeholder="Your displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-                        </div>
-                        <div className="card-col">
-                            <button className="btn btn-primary" onClick={updateDisplayName}>Update displayName</button>
-                        </div>
+                    <div className="col col-xl-4">
+                        <button className="btn btn-secondary" onClick={updateDisplayName}>Update</button>
                     </div>
-                    <div className="card-row">
-                        <div className="card-col">
-                            <button className="btn btn-primary" onClick={sendEmailVerification}>Send Email Verification</button>
-                        </div>
-                    </div>
+                </div>
+                <div className="row">
+                    <button className="btn btn-secondary" onClick={sendEmailVerification}>Send Email Verification</button>
                 </div>
             </div>
         </>
@@ -268,7 +262,7 @@ const Record = ({record, index}) => {
     }
 
     return (
-        <div className="container">
+        <div className="container border border-primary rounded" >
             <div className="mb-3">
                 <h1>Record #{index+1}</h1>
             </div>
@@ -399,9 +393,25 @@ const Header = () => {
         e.preventDefault();
         setTab(value);
     }
+
+    const handleSignout = (e) => {
+        e.preventDefault();
+        firebase.auth().signOut().then(() => {
+            addMsg(`signout succesfully`);
+            swal("Good job!", "Sign out successfully!", "success");
+        }).catch((error) => {
+            addMsg(`Error when signin out`);
+            addMsg(JSON.stringify(error, null, 4));
+            swal("Ohh!", JSON.stringify(error, null, 4), "error");
+        });
+    }
+
     return (
         <>
-            <h1>{tab==='/'?tab:`/${tab}`}</h1>
+            <div className="d-flex p-2 bd-highlight justify-content-between">
+                <div>{tab==='/'?tab:`/${tab}`}</div>
+                {user && <button className="btn btn-secondary" onClick={handleSignout}>Sign out</button>}
+            </div>
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
@@ -520,23 +530,10 @@ const App = () => {
         getRecords();
     }, [user])
 
-    const handleSignout = (e) => {
-        e.preventDefault();
-        firebase.auth().signOut().then(() => {
-            addMsg(`signout succesfully`);
-            swal("Good job!", "Sign out successfully!", "success");
-        }).catch((error) => {
-            addMsg(`Error when signin out`);
-            addMsg(JSON.stringify(error, null, 4));
-            swal("Ohh!", JSON.stringify(error, null, 4), "error");
-        });
-    }
-
     return (
         <AppContext.Provider value={{user, setUser, messages, setMessages, addMsg, records, setRecords, tab, setTab}}>
             <Header />
             <Body />
-            {user && <button className="btn btn-secondary" onClick={handleSignout}>Sign out</button>}
         </AppContext.Provider>
     )
 }

@@ -1,4 +1,4 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
 }
@@ -54,6 +54,22 @@ button {
 
 button:hover {
     background-color: rgba(115, 120, 40, 1);
+}
+
+.active {
+    background-color: green;
+} */
+
+button {
+    border: none;
+}
+
+button:hover {
+    background-color: rgba(115, 120, 40, 1);
+}
+
+.nav-link {
+    width: 100%;
 }
 
 .active {
