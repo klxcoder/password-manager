@@ -114,7 +114,7 @@ const UpdateProfileSection = () => {
     )
 }
 
-const AddRecordSection = () => {
+const AddRecordSection = React.memo(() => {
     const [domain, setDomain] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -183,7 +183,7 @@ const AddRecordSection = () => {
             </div>
         </div>
     )
-}
+})
 
 const Record = ({record, index}) => {
     const {user, addMsg, setRecords} = React.useContext(AppContext);
@@ -472,10 +472,12 @@ const Header = () => {
     )
 }
 
-const Body = () => {
+const Body = React.memo(() => {
     const {tab, user} = React.useContext(AppContext);
+    console.log('re-render Body');
     return (
         <div>
+            {/* <AddRecordSection /> */}
             {tab==='/' && <h1>Home Page</h1>}
             {tab==='log' && <LogSection />}
             {!user && tab==='sign' && <SignupSigninSection />}
@@ -484,12 +486,13 @@ const Body = () => {
                     {tab==='user-detail' && <UserDetail />}
                     {tab==='update-profile' && <UpdateProfileSection />}
                     {tab==='add-record' && <AddRecordSection />}
+                    {/* <AddRecordSection /> */}
                     {tab==='show-record' && <ShowRecordSection />}
                 </>
             }
         </div>
     )
-}
+})
 
 const AppContext = React.createContext();
 
