@@ -215,7 +215,7 @@ const Record = ({record, index}) => {
                     swal("Ohh!", JSON.stringify(error, null, 4), "error");
                 });
             } else {
-                swal("Your imaginary file is safe!");
+                swal("Your record file is safe!");
             }
         });
     }
