@@ -415,15 +415,15 @@ const Header = () => {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
-                                <li className="nav-item">
+                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                     <button className={tab==="/" ? "nav-link active" : "nav-link"} onClick={(e) => handleSetTab(e, '/')}>Home</button>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                     <button className={tab==="log" ? "nav-link active" : "nav-link"} onClick={(e) => handleSetTab(e, 'log')}>Log Section</button>
                                 </li>
                                 {!user &&
                                     <>
-                                        <li className="nav-item">
+                                        <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                             <button className={tab==="sign"?"nav-link active":"nav-link"} onClick={(e) => handleSetTab(e, 'sign')}>Sign in & Sign up</button>
                                         </li>
                                     </>
@@ -448,7 +448,7 @@ const Header = () => {
                                                 text: 'Show Record Section'
                                             }
                                         ].map(x =>
-                                            <li className="nav-item" key={x.tab}>
+                                            <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav" key={x.tab}>
                                                 <button className={tab===x.tab?"nav-link active":"nav-link"} onClick={(e) => handleSetTab(e, x.tab)}>{x.text}</button>
                                             </li>    
                                         )}
