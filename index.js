@@ -261,7 +261,7 @@ const Record = ({record, index}) => {
     }
 
     return (
-        <div className="container border border-primary rounded" >
+        <div className="container border border-primary rounded m-3" >
             <div className="mb-3">
                 <h1>Record #{index+1}</h1>
             </div>
